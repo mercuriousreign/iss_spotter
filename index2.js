@@ -1,7 +1,15 @@
 const request = require('request-promise-native')
-const {fetchMyIP,fetchCoordsByIP} = require('./iss_promised')
+const { nextISSTimesForMyLocation } = require('./iss_promised')
 
 
-fetchMyIP()
-.then(fetchCoordsByIP)
-.then(body => console.log(body));
+
+nextISSTimesForMyLocation()
+.then((passTimes) => {
+  const date = new Date(0);
+    for (let pass of passTimes) {
+      console.log(`Next pass at ${date} for ${pass.duration} seconds!`);
+    }
+}).catch((error) => {
+  console.log("It didn't work: ",error.message);
+})
+
